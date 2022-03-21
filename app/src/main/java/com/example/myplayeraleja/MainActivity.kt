@@ -8,23 +8,27 @@ import com.example.myplayeraleja.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        val text = "Hello Kotlin"
-        binding.message.text = text
-        setContentView(view)
+        setContentView(binding.root)
         initListeners()
+        binding.recycler.adapter = MediaGridAdapter(
+            getItems(),
+        ) {
+            Toast.makeText(this@MainActivity, it.title, Toast.LENGTH_SHORT).show()
+        }
+
+
     }
 
     private fun initListeners() {
-        binding.button.setOnClickListener {
-            toast( " Hello : ${binding.inputMessage.text}")
-        }
+////        binding.button.setOnClickListener {
+//            toast( " Hello : ${binding.inputMessage.text}")
+//        }
     }
 
 
     private fun toast(message: String) = Toast.makeText(this, "$message", Toast.LENGTH_SHORT).show()
-
 }
