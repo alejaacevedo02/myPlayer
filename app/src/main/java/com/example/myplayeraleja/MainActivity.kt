@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initListeners()
         binding.recycler.adapter = MediaGridAdapter(
             getItems(),
         ) {
@@ -22,13 +21,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-    private fun initListeners() {
-////        binding.button.setOnClickListener {
-//            toast( " Hello : ${binding.inputMessage.text}")
-//        }
-    }
-
 
     private fun toast(message: String) = Toast.makeText(this, "$message", Toast.LENGTH_SHORT).show()
 }
