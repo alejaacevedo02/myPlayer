@@ -15,8 +15,13 @@ class MainActivity : AppCompatActivity() {
         val text = "Hello Kotlin"
         binding.message.text = text
         setContentView(view)
-        toast("Hello World")
+        initListeners()
+    }
 
+    private fun initListeners() {
+        binding.button.setOnClickListener {
+            toast( " Hello : ${binding.inputMessage.text}")
+        }
     }
 
 
