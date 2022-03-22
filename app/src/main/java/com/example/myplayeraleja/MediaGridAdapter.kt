@@ -16,9 +16,7 @@ class MediaGridAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(mediaItem: MediaItem) {
             binding.mediaTitle.text = mediaItem.title
-            Glide.with(binding.root.context)
-                .load(mediaItem.url)
-                .into(binding.mediaThumb)
+            binding.mediaThumb.loadUrl(mediaItem.url)
         }
     }
 
