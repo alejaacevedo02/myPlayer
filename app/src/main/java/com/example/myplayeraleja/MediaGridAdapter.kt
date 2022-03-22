@@ -1,9 +1,10 @@
 package com.example.myplayeraleja
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.myplayeraleja.MediaItem.Type
 import com.example.myplayeraleja.databinding.ViewMediaItemBinding
 
 class MediaGridAdapter(
@@ -17,6 +18,10 @@ class MediaGridAdapter(
         fun bind(mediaItem: MediaItem) {
             binding.mediaTitle.text = mediaItem.title
             binding.mediaThumb.loadUrl(mediaItem.url)
+            binding.mediaVideoIndicator.visibility = when (mediaItem.type) {
+                Type.PHOTO -> View.GONE
+                Type.VIDEO ->  View.VISIBLE
+            }
         }
     }
 
