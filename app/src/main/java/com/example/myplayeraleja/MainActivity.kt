@@ -16,11 +16,7 @@ class MainActivity : AppCompatActivity() {
         binding.recycler.adapter = MediaGridAdapter(
             getItems(),
         ) {
-            Toast.makeText(this@MainActivity, it.title, Toast.LENGTH_SHORT).show()
+            toast(it.title)
         }
-
-
     }
-
-    private fun toast(message: String) = Toast.makeText(this, "$message", Toast.LENGTH_SHORT).show()
 }
