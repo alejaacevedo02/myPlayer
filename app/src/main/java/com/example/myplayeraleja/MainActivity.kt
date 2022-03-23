@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myplayeraleja.MediaItem.*
 import com.example.myplayeraleja.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -24,10 +25,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.filter_all -> mediaGridAdapter.items = getItems()
-            R.id.filter_photos -> mediaGridAdapter.items = getItems().filter{ it.type == MediaItem.Type.PHOTO}
-            R.id.filter_videos -> mediaGridAdapter.items = getItems().filter{ it.type == MediaItem.Type.VIDEO}
+        mediaGridAdapter.items = getItems().let { mediaItems ->
+            when (item.itemId) {
+                R.id.filter_all -> mediaItems
+                R.id.filter_photos -> mediaItems.filter { it.type == Type.PHOTO }
+                R.id.filter_videos -> mediaItems.filter { it.type == Type.VIDEO }
+                else -> emptyList()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
