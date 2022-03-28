@@ -9,14 +9,14 @@ import com.example.myplayeraleja.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val mediaGridAdapter by lazy { MediaGridAdapter(getItems()) { toast(it.title) } }
+    private val mediaGridAdapter by lazy { MediaGridAdapter(MediaProvider.getItems()) { toast(it.title) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.recycler.adapter = mediaGridAdapter
-        mediaGridAdapter.items = getItems()
+        mediaGridAdapter.items = MediaProvider.getItems()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        mediaGridAdapter.items = getItems().let { mediaItems ->
+        mediaGridAdapter.items = MediaProvider.getItems().let { mediaItems ->
             when (item.itemId) {
                 R.id.filter_all -> mediaItems
                 R.id.filter_photos -> mediaItems.filter { it.type == Type.PHOTO }
