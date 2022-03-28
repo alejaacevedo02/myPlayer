@@ -1,13 +1,18 @@
 package com.example.myplayeraleja
 
+import androidx.annotation.WorkerThread
 import com.example.myplayeraleja.MediaItem.Type
 
 object MediaProvider {
-    fun getItems(): List<MediaItem> = (1..10).map {
-        MediaItem(
-            "Title $it",
-            "https://placekitten.com/200/200?image=$it",
-            if (it % 3 == 0) Type.VIDEO else Type.PHOTO
-        )
+    @WorkerThread
+    fun getItems(): List<MediaItem> {
+        Thread.sleep(2000)
+        return (1..10).map {
+            MediaItem(
+                "Title $it",
+                "https://placekitten.com/200/200?image=$it",
+                if (it % 3 == 0) Type.VIDEO else Type.PHOTO
+            )
+        }
     }
 }
