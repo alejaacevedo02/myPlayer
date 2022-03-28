@@ -5,17 +5,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myplayeraleja.MediaItem.*
+import androidx.lifecycle.lifecycleScope
+import com.example.myplayeraleja.MediaItem.Type
 import com.example.myplayeraleja.databinding.ActivityMainBinding
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity(), CoroutineScope {
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
-    lateinit var job: Job
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -23,7 +20,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        job = SupervisorJob()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.recycler.adapter = mediaGridAdapter
@@ -31,14 +27,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun updateItems(filter: Int = R.id.filter_all) {
-        launch {
+        lifecycleScope.launch {
             binding.progress.visibility = View.VISIBLE
             mediaGridAdapter.items = withContext(Dispatchers.IO) { getFilteredItems(filter) }
             binding.progress.visibility = View.GONE
         }
     }
 
-    private fun getFilteredItems(filter: Int): List<MediaItem>{
+    private fun getFilteredItems(filter: Int): List<MediaItem> {
         return MediaProvider.getItems().let { mediaItems ->
             when (filter) {
                 R.id.filter_all -> mediaItems
@@ -57,10 +53,5 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         updateItems(item.itemId)
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroy() {
-        job.cancel()
-        super.onDestroy()
     }
 }
