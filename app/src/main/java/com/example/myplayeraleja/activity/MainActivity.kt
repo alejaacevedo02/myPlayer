@@ -1,4 +1,4 @@
-package com.example.myplayeraleja
+package com.example.myplayeraleja.activity
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.myplayeraleja.*
 import com.example.myplayeraleja.MediaItem.Type
 import com.example.myplayeraleja.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val mediaGridAdapter = MediaGridAdapter { toast(it.title) }
+    private val mediaGridAdapter =
+        MediaGridAdapter { mediaItem -> startActivity<DetailActivity>(DetailActivity.EXTRA_ID to mediaItem.id) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

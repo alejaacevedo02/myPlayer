@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -30,7 +31,10 @@ fun ImageView.loadUrl(url: String) {
 }
 
 //Allow to use generic parameters and not lose them at compile time
-inline fun <reified T: Activity> Context.startActivity(){
-    val intent = Intent(this, T::class.java)
+inline fun <reified T : Activity> Context.startActivity(vararg pairs: Pair<String, Any?>) {
+    val bundle = bundleOf(*pairs)
+    val intent = Intent(this, T::class.java).apply {
+        putExtras(bundle)
+    }
     startActivity(intent)
 }
