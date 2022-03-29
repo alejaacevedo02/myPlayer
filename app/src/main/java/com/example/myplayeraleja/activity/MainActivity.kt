@@ -31,16 +31,18 @@ class MainActivity : AppCompatActivity() {
     private fun updateItems(filter: Filter = Filter.None) {
         lifecycleScope.launch {
             binding.progress.visibility = View.VISIBLE
-            mediaGridAdapter.items = withContext(Dispatchers.IO) { getFilteredItems(filter) }
+            mediaGridAdapter.items =  getFilteredItems(filter)
             binding.progress.visibility = View.GONE
         }
     }
 
-    private fun getFilteredItems(filter: Filter): List<MediaItem> {
-        return MediaProvider.getItems().let { mediaItems ->
-            when (filter) {
-                Filter.None -> mediaItems
-                is Filter.ByType -> mediaItems.filter { it.type == filter.type }
+    private suspend fun getFilteredItems(filter: Filter): List<MediaItem> {
+        return withContext(Dispatchers.IO) {
+            MediaProvider.getItems().let { mediaItems ->
+                when (filter) {
+                    Filter.None -> mediaItems
+                    is Filter.ByType -> mediaItems.filter { it.type == filter.type }
+                }
             }
         }
     }

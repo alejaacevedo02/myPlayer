@@ -27,9 +27,7 @@ class DetailActivity : AppCompatActivity() {
         val itemId = intent.getIntExtra(EXTRA_ID, -1)
 
         lifecycleScope.launch {
-            val items = withContext(Dispatchers.IO) {
-                MediaProvider.getItems()
-            }
+            val items = getMediaItems()
             val item = items.firstOrNull() { it.id == itemId }
             item?.let {
                 supportActionBar?.title = item.title
@@ -40,5 +38,9 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private suspend fun getMediaItems(): List<MediaItem> = withContext(Dispatchers.IO) {
+        MediaProvider.getItems()
     }
 }
