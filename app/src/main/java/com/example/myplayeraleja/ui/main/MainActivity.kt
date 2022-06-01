@@ -1,5 +1,6 @@
 package com.example.myplayeraleja.ui.main
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,38 +18,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainPresenter.View {
 
     private lateinit var binding: ActivityMainBinding
-
+    private val mainPresenter = MainPresenter(this, lifecycleScope)
     private val mediaGridAdapter =
-        MediaGridAdapter { mediaItem -> startActivity<DetailActivity>(DetailActivity.EXTRA_ID to mediaItem.id) }
+        MediaGridAdapter { mainPresenter.onMediaItemClicked(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.recycler.adapter = mediaGridAdapter
-        updateItems()
-    }
-
-    private fun updateItems(filter: Filter = Filter.None) {
-        lifecycleScope.launch {
-            binding.progress.visibility = View.VISIBLE
-            mediaGridAdapter.items =  getFilteredItems(filter)
-            binding.progress.visibility = View.GONE
-        }
-    }
-
-    private suspend fun getFilteredItems(filter: Filter): List<MediaItem> {
-        return withContext(Dispatchers.IO) {
-            MediaProvider.getItems().let { mediaItems ->
-                when (filter) {
-                    Filter.None -> mediaItems
-                    is Filter.ByType -> mediaItems.filter { it.type == filter.type }
-                }
-            }
-        }
+        mainPresenter.updateItems()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -62,7 +44,19 @@ class MainActivity : AppCompatActivity() {
             R.id.filter_videos -> Filter.ByType(Type.VIDEO)
             else -> Filter.None
         }
-        updateItems(filter)
+        mainPresenter.updateItems(filter)
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun setProgressVisible(visible: Boolean) {
+        binding.progress.visibility =   if (visible) View.VISIBLE else  View.GONE
+    }
+
+    override fun updateItems(items: List<MediaItem>) {
+        mediaGridAdapter.items = items
+    }
+
+    override fun navigateToDetail(id: Int) {
+        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to id)
     }
 }
