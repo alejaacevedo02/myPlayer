@@ -1,7 +1,7 @@
-package com.example.myplayeraleja
+package com.example.myplayeraleja.data
 
 import androidx.annotation.WorkerThread
-import com.example.myplayeraleja.MediaItem.Type
+import com.example.myplayeraleja.data.MediaItem.Type
 
 object MediaProvider {
     @WorkerThread

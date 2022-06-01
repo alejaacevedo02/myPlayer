@@ -1,11 +1,13 @@
-package com.example.myplayeraleja
+package com.example.myplayeraleja.ui.main
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myplayeraleja.MediaItem.Type
+import com.example.myplayeraleja.data.MediaItem
+import com.example.myplayeraleja.data.MediaItem.Type
 import com.example.myplayeraleja.databinding.ViewMediaItemBinding
+import com.example.myplayeraleja.loadUrl
 import kotlin.properties.Delegates
 
 class MediaGridAdapter(

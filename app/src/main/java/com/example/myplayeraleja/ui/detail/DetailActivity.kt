@@ -1,13 +1,12 @@
-package com.example.myplayeraleja.activity
+package com.example.myplayeraleja.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
-import com.example.myplayeraleja.MediaItem
-import com.example.myplayeraleja.MediaItem.*
-import com.example.myplayeraleja.MediaProvider
-import com.example.myplayeraleja.R
+import com.example.myplayeraleja.data.MediaItem
+import com.example.myplayeraleja.data.MediaItem.*
+import com.example.myplayeraleja.data.MediaProvider
 import com.example.myplayeraleja.databinding.ActivityDetailBinding
 import com.example.myplayeraleja.loadUrl
 import kotlinx.coroutines.Dispatchers

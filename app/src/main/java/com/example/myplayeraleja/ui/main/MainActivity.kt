@@ -1,4 +1,4 @@
-package com.example.myplayeraleja.activity
+package com.example.myplayeraleja.ui.main
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,8 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.myplayeraleja.*
-import com.example.myplayeraleja.MediaItem.Type
+import com.example.myplayeraleja.data.MediaItem.Type
+import com.example.myplayeraleja.data.Filter
+import com.example.myplayeraleja.data.MediaItem
+import com.example.myplayeraleja.data.MediaProvider
 import com.example.myplayeraleja.databinding.ActivityMainBinding
+import com.example.myplayeraleja.ui.detail.DetailActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

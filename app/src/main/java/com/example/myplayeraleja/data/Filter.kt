@@ -1,4 +1,4 @@
-package com.example.myplayeraleja
+package com.example.myplayeraleja.data
 
 sealed class Filter {
     object None : Filter()
