@@ -22,6 +22,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -51,6 +54,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 

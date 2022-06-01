@@ -1,29 +1,29 @@
 package com.example.myplayeraleja.ui.main
 
-import android.view.View
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import com.example.myplayeraleja.data.Filter
 import com.example.myplayeraleja.data.MediaItem
 import com.example.myplayeraleja.data.MediaProvider
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainPresenter(private val view: View, private val scope: CoroutineScope) {
+class MainViewModel : ViewModel() {
 
-    interface View {
-        fun setProgressVisible(visible: Boolean)
-        fun updateItems(items: List<MediaItem>)
-        fun navigateToDetail(id: Int)
-    }
+    private val _progressVisible = MutableLiveData<Boolean>()
+    val progressVisible: LiveData<Boolean> get() = _progressVisible
 
+    private val _items = MutableLiveData<List<MediaItem>>()
+    val items: LiveData<List<MediaItem>> get() = _items
+
+    private val _navigateToDetail = MutableLiveData<Int>()
+    val navigateToDetail: LiveData<Int> get() = _navigateToDetail
+    
     fun updateItems(filter: Filter = Filter.None) {
-        scope.launch {
-            view.setProgressVisible(true)
-            val items = getFilteredItems(filter)
-            view.updateItems(items)
-            view.setProgressVisible(false)
+        viewModelScope.launch {
+            _progressVisible.value = true
+           _items.value = getFilteredItems(filter)
+            _progressVisible.value = false
         }
     }
 
@@ -39,6 +39,6 @@ class MainPresenter(private val view: View, private val scope: CoroutineScope) {
     }
 
     fun onMediaItemClicked(mediaItem: MediaItem) {
-        view.navigateToDetail(mediaItem.id)
+        _navigateToDetail.value = mediaItem.id
     }
 }
