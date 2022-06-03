@@ -11,6 +11,7 @@ import com.example.myplayeraleja.data.MediaItem.*
 import com.example.myplayeraleja.data.MediaProvider
 import com.example.myplayeraleja.databinding.ActivityDetailBinding
 import com.example.myplayeraleja.databinding.ActivityMainBinding
+import com.example.myplayeraleja.getViewModel
 import com.example.myplayeraleja.loadUrl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val itemId = intent.getIntExtra(EXTRA_ID, -1)
-        detailViewModel = ViewModelProvider(this).get()
+        detailViewModel = getViewModel()
         initObservers()
         detailViewModel.onCreate(itemId)
     }
