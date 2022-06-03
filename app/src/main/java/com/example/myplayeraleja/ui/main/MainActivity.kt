@@ -30,7 +30,11 @@ class MainActivity : AppCompatActivity() {
 
             observe(items, ::updateItems)
 
-            observe(navigateToDetail, ::navigateToDetail)
+            observe(navigateToDetail) {
+                it.getContentIfNotHandled()?.let { itemId ->
+                    navigateToDetail(itemId)
+                }
+            }
         }
         binding.recycler.adapter = mediaGridAdapter
         mainViewModel.updateItems()
