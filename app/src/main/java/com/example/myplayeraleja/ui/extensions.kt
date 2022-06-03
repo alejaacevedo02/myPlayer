@@ -40,8 +40,12 @@ inline fun <reified T : Activity> Context.startActivity(vararg pairs: Pair<Strin
     startActivity(intent)
 }
 
-inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(): T =
-    ViewModelProvider(this).get()
+/**
+ * Possibility of creating observers directly on ViewModel creation
+ * If only ViewModel is created, then the {} let's it have it blank**/
+
+inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(body : T.()-> Unit = {}): T =
+    ViewModelProvider(this).get<T>().apply(body)
 
 fun <T> LifecycleOwner.observe(liveData: LiveData<T>, observer: (T) -> Unit) {
     liveData.observe(this, Observer(observer))

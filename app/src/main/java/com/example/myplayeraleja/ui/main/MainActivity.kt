@@ -19,24 +19,21 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
-    private val mediaGridAdapter = MediaGridAdapter{ mainViewModel.onMediaItemClicked(it) }
+    private val mediaGridAdapter = MediaGridAdapter { mainViewModel.onMediaItemClicked(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mainViewModel = getViewModel()
-        initObservers()
+        mainViewModel = getViewModel {
+            observe(progressVisible, ::setProgressVisible)
+
+            observe(items, ::updateItems)
+
+            observe(navigateToDetail, ::navigateToDetail)
+        }
         binding.recycler.adapter = mediaGridAdapter
         mainViewModel.updateItems()
-    }
-
-    private fun initObservers() {
-        observe(mainViewModel.progressVisible, ::setProgressVisible)
-
-        observe(mainViewModel.items, ::updateItems)
-
-        observe(mainViewModel.navigateToDetail, ::navigateToDetail)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -55,13 +52,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setProgressVisible(visible: Boolean) {
-        binding.progress.visibility =   if (visible) View.VISIBLE else  View.GONE
+        binding.progress.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     private fun updateItems(items: List<MediaItem>) {
         mediaGridAdapter.items = items
     }
-     private fun navigateToDetail(id: Int) {
+
+    private fun navigateToDetail(id: Int) {
         startActivity<DetailActivity>(DetailActivity.EXTRA_ID to id)
     }
 }
