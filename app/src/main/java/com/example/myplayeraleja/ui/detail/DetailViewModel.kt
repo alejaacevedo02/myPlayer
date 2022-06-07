@@ -7,11 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.myplayeraleja.data.MediaItem
 import com.example.myplayeraleja.data.MediaItem.Type
 import com.example.myplayeraleja.data.MediaProvider
+import com.example.myplayeraleja.data.MediaProviderImpl
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(
+    private val mediaProvider: MediaProvider = MediaProviderImpl,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModel() {
     private val _title = MutableLiveData<String>()
     val title: LiveData<String> get() = _title
 
@@ -33,7 +38,7 @@ class DetailViewModel : ViewModel() {
             }
         }
 
-    private suspend fun getMediaItems(): List<MediaItem> = withContext(Dispatchers.IO) {
-        MediaProvider.getItems()
+    private suspend fun getMediaItems(): List<MediaItem> = withContext(ioDispatcher) {
+        mediaProvider.getItems()
     }
 }

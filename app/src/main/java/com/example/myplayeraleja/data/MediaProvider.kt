@@ -2,10 +2,12 @@ package com.example.myplayeraleja.data
 
 import androidx.annotation.WorkerThread
 import com.example.myplayeraleja.data.MediaItem.Type
-
-object MediaProvider {
-    @WorkerThread
-    fun getItems(): List<MediaItem> {
+interface MediaProvider {
+    fun getItems() : List<MediaItem>
+}
+object MediaProviderImpl : MediaProvider{
+    
+    override fun getItems(): List<MediaItem> {
         Thread.sleep(2000)
         return (1..10).map {
             MediaItem(

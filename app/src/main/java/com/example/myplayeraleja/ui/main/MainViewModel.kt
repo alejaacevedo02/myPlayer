@@ -4,12 +4,17 @@ import androidx.lifecycle.*
 import com.example.myplayeraleja.data.Filter
 import com.example.myplayeraleja.data.MediaItem
 import com.example.myplayeraleja.data.MediaProvider
+import com.example.myplayeraleja.data.MediaProviderImpl
 import com.example.myplayeraleja.ui.Event
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val mediaProvider: MediaProvider = MediaProviderImpl,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : ViewModel() {
 
     private val _progressVisible = MutableLiveData<Boolean>()
     val progressVisible: LiveData<Boolean> get() = _progressVisible
@@ -29,8 +34,8 @@ class MainViewModel : ViewModel() {
     }
 
     private suspend fun getFilteredItems(filter: Filter): List<MediaItem> {
-        return withContext(Dispatchers.IO) {
-            MediaProvider.getItems().let { mediaItems ->
+        return withContext(ioDispatcher) {
+            mediaProvider.getItems().let { mediaItems ->
                 when (filter) {
                     Filter.None -> mediaItems
                     is Filter.ByType -> mediaItems.filter { it.type == filter.type }
