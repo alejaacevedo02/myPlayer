@@ -24,21 +24,24 @@ import org.mockito.kotlin.verify
 class MainActivityTest {
     private lateinit var mainViewModel: MainViewModel
     private val fakeMediaProvider = FakeMediaProviderImpl()
-    private val testDispatcher = TestCoroutineDispatcher()
+   // private val testDispatcher = TestCoroutineDispatcher()
+
+    @get:Rule
+    val coroutinesTestRule = CoroutinesTestRule()
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(testDispatcher)
-        mainViewModel = MainViewModel(fakeMediaProvider, testDispatcher)
+        //Dispatchers.setMain(testDispatcher)
+        mainViewModel = MainViewModel(fakeMediaProvider,coroutinesTestRule.testDispatcher)
     }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
+       // testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
@@ -48,7 +51,7 @@ class MainActivityTest {
 
     @Test
     fun `progress is set visible when progressVisible value changes`() =
-        testDispatcher.runBlockingTest {
+        coroutinesTestRule.testDispatcher.runBlockingTest {
             val observer = mock<Observer<Boolean>>()
             mainViewModel.progressVisible.observeForever(observer)
             mainViewModel.onFilterClicked()
@@ -56,7 +59,7 @@ class MainActivityTest {
         }
 
     @Test
-    fun `navigates to detail when onMediaItemClicked`() = testDispatcher.runBlockingTest {
+    fun `navigates to detail when onMediaItemClicked`() = coroutinesTestRule.testDispatcher.runBlockingTest {
         val observer = mock<Observer<Event<Int>>>()
         mainViewModel.navigateToDetail.observeForever(observer)
         mainViewModel.onMediaItemClicked(MediaItem(1, "", "", Type.PHOTO))
