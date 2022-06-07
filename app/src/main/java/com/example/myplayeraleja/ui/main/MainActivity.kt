@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.recycler.adapter = mediaGridAdapter
-        mainViewModel.updateItems()
+        mainViewModel.onFilterClicked()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             R.id.filter_videos -> Filter.ByType(Type.VIDEO)
             else -> Filter.None
         }
-        mainViewModel.updateItems(filter)
+        mainViewModel.onFilterClicked(filter)
         return super.onOptionsItemSelected(item)
     }
 

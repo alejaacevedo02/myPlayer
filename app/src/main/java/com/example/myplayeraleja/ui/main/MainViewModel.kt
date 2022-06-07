@@ -25,7 +25,7 @@ class MainViewModel(
     private val _navigateToDetail = MutableLiveData<Event<Int>>()
     val navigateToDetail: LiveData<Event<Int>> get() = _navigateToDetail
 
-    fun updateItems(filter: Filter = Filter.None) {
+    fun onFilterClicked(filter: Filter = Filter.None) {
         viewModelScope.launch {
             _progressVisible.value = true
             _items.value = getFilteredItems(filter)
