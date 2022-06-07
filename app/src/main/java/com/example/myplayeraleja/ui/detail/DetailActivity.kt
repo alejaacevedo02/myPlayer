@@ -7,6 +7,7 @@ import com.example.myplayeraleja.databinding.ActivityDetailBinding
 import com.example.myplayeraleja.getViewModel
 import com.example.myplayeraleja.loadUrl
 import com.example.myplayeraleja.observe
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
@@ -15,13 +16,13 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var detailViewModel: DetailViewModel
-
+    private val detailViewModel: DetailViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        detailViewModel = getViewModel {
+
+        with(detailViewModel) {
             observe(title) { title -> supportActionBar?.title = title }
             observe(thumb) { url -> binding.detailThumb.loadUrl(url) }
             observe(videoIndicatorVisibility) {

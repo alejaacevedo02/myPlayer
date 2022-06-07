@@ -10,22 +10,22 @@ import com.example.myplayeraleja.data.Filter
 import com.example.myplayeraleja.data.MediaItem
 import com.example.myplayeraleja.data.MediaItem.Type
 import com.example.myplayeraleja.databinding.ActivityMainBinding
-import com.example.myplayeraleja.getViewModel
 import com.example.myplayeraleja.observe
 import com.example.myplayeraleja.startActivity
 import com.example.myplayeraleja.ui.detail.DetailActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModel()
     private val mediaGridAdapter = MediaGridAdapter { mainViewModel.onMediaItemClicked(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mainViewModel = getViewModel {
+        with(mainViewModel) {
             observe(progressVisible, ::setProgressVisible)
 
             observe(items, ::updateItems)
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.onFilterClicked()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return super.onCreateOptionsMenu(menu)
     }

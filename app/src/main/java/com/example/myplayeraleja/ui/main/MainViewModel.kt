@@ -1,19 +1,20 @@
 package com.example.myplayeraleja.ui.main
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myplayeraleja.data.Filter
 import com.example.myplayeraleja.data.MediaItem
 import com.example.myplayeraleja.data.MediaProvider
-import com.example.myplayeraleja.data.MediaProviderImpl
 import com.example.myplayeraleja.ui.Event
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val mediaProvider: MediaProvider = MediaProviderImpl,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val mediaProvider: MediaProvider,
+    private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _progressVisible = MutableLiveData<Boolean>()

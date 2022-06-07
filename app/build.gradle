@@ -55,9 +55,11 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
-
+    implementation 'io.insert-koin:koin-android:3.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 
+    testImplementation 'io.insert-koin:koin-test:3.2.0'
+    testImplementation "io.insert-koin:koin-test-junit4:3.2.0"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito.kotlin:mockito-kotlin:4.0.0'
     testImplementation 'org.mockito:mockito-inline:2.28.2'
