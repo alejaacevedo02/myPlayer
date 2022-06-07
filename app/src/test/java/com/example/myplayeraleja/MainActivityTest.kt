@@ -9,10 +9,7 @@ import com.example.myplayeraleja.ui.Event
 import com.example.myplayeraleja.ui.main.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -51,7 +48,7 @@ class MainActivityTest {
 
     @Test
     fun `progress is set visible when progressVisible value changes`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        runTest {
             val observer = mock<Observer<Boolean>>()
             mainViewModel.progressVisible.observeForever(observer)
             mainViewModel.onFilterClicked()
@@ -59,7 +56,7 @@ class MainActivityTest {
         }
 
     @Test
-    fun `navigates to detail when onMediaItemClicked`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+    fun `navigates to detail when onMediaItemClicked`() = runTest {
         val observer = mock<Observer<Event<Int>>>()
         mainViewModel.navigateToDetail.observeForever(observer)
         mainViewModel.onMediaItemClicked(MediaItem(1, "", "", Type.PHOTO))
