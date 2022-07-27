@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MyPlayerAleja"
-include ':app'
+include(":app")
